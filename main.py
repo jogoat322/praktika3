@@ -1,9 +1,11 @@
 # main.py
-from entropy_calculator import calculate_entropy, calculate_alphabet_size
 from additional_calculations import (
     calculate_hartley_entropy,
     calculate_shannon_entropy,
-    calculate_alphabet_redundancy
+    calculate_alphabet_redundancy,
+    calculate_entropy,
+    calculate_alphabet_size
+
 )
 
 def save_to_file(filename, content):
