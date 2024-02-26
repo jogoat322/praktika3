@@ -30,7 +30,7 @@ while True:
 
     elif choice == '2':
         data = [int(x) for x in input("Введите данные через пробел (например, 1 1 1 0 0 1 0 1 0 0): ").split()]
-        entropy_value = calculate_data_entropy(data)
+        entropy_value = calculate_entropy(data)
         print(f"Энтропия данных: {entropy_value}")
         save_choice = input("Хотите ли сохранить результат в файл? (y/n): ")
         if save_choice.lower() == 'y':
