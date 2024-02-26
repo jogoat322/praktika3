@@ -1,3 +1,9 @@
+import json
+import heapq
+from collections import defaultdict
+from datetime import datetime
+import os
+
 class Node:
     def __init__(self, left, right):
         self.left = left
@@ -17,25 +23,47 @@ class Node:
         else:
             self.right.walk(path + '1', code)
 
-text = 'abcde'
-letters = set(text)
-frequencies = []
+def generate_huffman_code(text):
+    frequency = defaultdict(int)
+    
+    for char in text:
+        frequency[char] += 1
+    
+    heap = [[weight, [symbol, ""]] for symbol, weight in frequency.items()]
+    heapq.heapify(heap)
+    
+    while len(heap) > 1:
+        lo = heapq.heappop(heap)
+        hi = heapq.heappop(heap)
+        for pair in lo[1:]:
+            pair[1] = '0' + pair[1]
+        for pair in hi[1:]:
+            pair[1] = '1' + pair[1]
+        heapq.heappush(heap, [lo[0] + hi[0]] + lo[1:] + hi[1:])
+    
+    return sorted(heapq.heappop(heap)[1:], key=lambda p: (len(p[-1]), p))
 
-for letter in letters:
-    frequencies.append((text.count(letter), letter))
+def save_huffman_code_to_json(huffman_code):
+    timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    folder_name = f"{timestamp}"
+    os.makedirs(folder_name, exist_ok=True)
+    
+    output_file_path = os.path.join(folder_name, "code.json")
+    
+    with open(output_file_path, "w") as json_file:
+        json.dump(dict(huffman_code), json_file, ensure_ascii=False, indent=4)
+    
+    print(f"Huffman code saved in {output_file_path}")
 
-print(frequencies)
+# Получение имени файла от пользователя
+input_file_name = input("Введите имя файла: ")
 
-while len(frequencies) > 1:
-    frequencies = sorted(frequencies, key=lambda x: x[0], reverse=True)
-    first = frequencies.pop()
-    second = frequencies.pop()
-    freq = first[0] + second[0]
-    frequencies.append((freq, Node(first[1], second[1])))
-    print(frequencies)
+try:
+    with open(input_file_name, "r", encoding="utf-8") as file:
+        text_data = file.read()
+except FileNotFoundError:
+    print("Файл не найден.")
+    exit()
 
-huffman_tree = frequencies[0][1]
-code = {letter: '' for letter in letters}
-huffman_tree.walk(code=code)
-
-print(code)
+huffman_code = generate_huffman_code(text_data)
+save_huffman_code_to_json(huffman_code)
