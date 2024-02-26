@@ -3,7 +3,7 @@ import heapq
 from collections import defaultdict
 from datetime import datetime
 import os
-#
+
 class Node:
     def __init__(self, left, right):
         self.left = left
