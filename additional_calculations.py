@@ -22,7 +22,7 @@ def calculate_shannon_entropy(text):
 
     return entropy
 
-def calculate_alphabet_redundancy(alphabet_size, message_length):
+def calculate_alphabet_redundancy(alphabet_size):
     redundancy = 1 - (1 / alphabet_size)
     return redundancy
 def calculate_entropy(data):

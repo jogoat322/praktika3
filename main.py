@@ -43,7 +43,7 @@ while True:
         hartley_entropy = calculate_hartley_entropy(alphabet_size)
         shannon_entropy = calculate_shannon_entropy(text)
         message_length = len(text)
-        alphabet_redundancy = calculate_alphabet_redundancy(alphabet_size, message_length)
+        alphabet_redundancy = calculate_alphabet_redundancy(alphabet_size)
 
         print(f"Мощность алфавита: {alphabet_size}")
         print(f"Информационная энтропия по Хартли: {hartley_entropy}")
